@@ -25,6 +25,7 @@ def get_one(username):
 
     # If no streamer found
     if len(streamers) == 0:
+        # ADD NEW APIS HERE
         # Try to fetch streamer from Twitch API
         streamer = twitch.fetch_streamer(username)
         # If found with Twitch API, create it

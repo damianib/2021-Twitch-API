@@ -22,7 +22,7 @@ class FetchTwitchAPI(FetchStreamingAPI):
     def fetch_streamer(self, username):
 
         """
-        Get streamer on Twitch matrching with username
+        Get streamer on Twitch matching with username
         :param username: str
         """
 
