@@ -48,4 +48,3 @@ DELETE /streamers/{username} : remove the matching streamers from the database
 To fetch from other streaming platforms API, you must :
 * Add a new class `FetchXXXAPI` in the `fetch_streaming_api.py` file by respecting the structure of the `FetchStreamingAPI` abstract class. This class must implement a `fetch_streamer` method that returns `None` or a dictionnary with streamer info.
 * Instantiate this new class in `config.py` and add it in the `apis_to_fetch` list
-* Add a new step corresponding to the new API in the `get_one` function in `streamers.py`
