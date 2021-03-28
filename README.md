@@ -23,7 +23,7 @@ This API implement four basic operations :
 * Create a new streamer
 * Delete a streamer
 
-A summary of all endpoints is accessible at http://localhost:5000/api/ui/ when the API is running.
+A summary of all endpoints with detailed inputs and outputs is accessible at http://localhost:5000/api/ui/ when the API is running.
 
 ```
 GET /streamers/ : returns the list of streamers from the database
