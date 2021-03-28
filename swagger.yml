@@ -1,0 +1,109 @@
+swagger: "2.0"
+info:
+  description: Swagger file for the Twitch API
+  version: "1.0.0"
+  title: Swagger file for the Twitch API
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/api"
+
+# Paths supported by the server application
+paths:
+  /streamers/:
+    get:
+      operationId: "streamers.get_all"
+      tags:
+        - "Streamer"
+      summary: "Get the list of all streamers in db"
+      description: "Get the list of all streamers in db"
+      responses:
+        200:
+          description: "Successfuly read streamers from db"
+          schema:
+            type: "array"
+            items:
+              properties:
+                platform:
+                  type: "string"
+                username:
+                  type: "string"
+                stream_url:
+                  type: "string"
+                profile_picture_utl:
+                  type: "string"
+
+
+    post:
+      operationId: "streamers.create"
+      tags:
+        - Streamer
+      summary: Create a streamer and add it to the streamers db
+      description: Create a streamer and add it to the streamers db
+      parameters:
+        - name: streamer
+          in: body
+          description: Streamer to create
+          required: True
+          schema:
+            type: object
+            properties:
+              platform:
+                type: "string"
+                description: "boop"
+              username:
+                type: "string"
+              stream_url:
+                type: "string"
+              profile_picture_utl:
+                type: "string"
+      responses:
+        201:
+          description: Successfully created streamer in db
+
+  /streamers/{username}:
+    get:
+      operationId: "streamers.get_one"
+      tags:
+        - Streamer
+      summary: Get a list of all streamers matching the given username
+      description: Get a list of all streamers matching the given username
+      parameters:
+        - name: username
+          in: path
+          description: Username of streamer
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully read streamers from db
+          schema:
+            type: "array"
+            items:
+              properties:
+                platform:
+                  type: "string"
+                username:
+                  type: "string"
+                stream_url:
+                  type: "string"
+                profile_picture_utl:
+                  type: "string"
+
+    delete:
+      operationId: streamers.delete
+      tags:
+        - Streamer
+      summary: Delete a streamer from the db
+      description: Delete a streamer from the db
+      parameters:
+        - name: username
+          in: path
+          description: Username of streamer
+          type: string
+          required: True
+      responses:
+        200:
+          description: Successfully deleted streamer from db
