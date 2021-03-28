@@ -15,6 +15,17 @@ To start the API, run in the `./src/` directory :
 
 The API will be running on http://localhost:5000/api
 
+### Twitch API Credentials
+
+The `keyring` module is used to store your Twitch API client id and secret. You can set them in a Python console with the following code :
+
+```python
+import keyring
+
+keyring.set_password("twitch_api", "client_id", {your_client_id})
+keyring.set_password("twitch_api", "client_secret", {your_client_secret})
+```
+
 # API Resources
 
 This API implement four basic operations :
