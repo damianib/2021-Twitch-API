@@ -1,5 +1,5 @@
 from flask import make_response, abort
-from config import db, twitch, app
+from config import db, apis_to_fetch
 from models import Streamer, StreamerSchema
 
 
@@ -25,13 +25,16 @@ def get_one(username):
 
     # If no streamer found
     if len(streamers) == 0:
-        # ADD NEW APIS HERE
-        # Try to fetch streamer from Twitch API
-        streamer = twitch.fetch_streamer(username)
-        # If found with Twitch API, create it
-        if streamer is not None:
-            create(streamer)
-        else:
+        # Try to fetch streamer from platform API
+        verif_found = False
+        for api in apis_to_fetch:
+            streamer = api.fetch_streamer(username)
+            # If found with streaming API, create it
+            if streamer is not None:
+                create_db(streamer)
+                verif_found = True
+        # If no streamer found on any platform
+        if not verif_found:
             abort(
                 404,
                 "Streamer not found for username : {}".format(username),
@@ -42,6 +45,18 @@ def get_one(username):
     streamer_schema = StreamerSchema(many=True)
     data = streamer_schema.dump(streamers)
     return data
+
+
+def create_db(streamer):
+
+    """Create streamer in database"""
+
+    schema = StreamerSchema()
+    new_streamer = schema.load(streamer, session=db.session)
+
+    # Add the streamer to the database
+    db.session.add(new_streamer)
+    db.session.commit()
 
 
 def create(streamer):
@@ -55,15 +70,10 @@ def create(streamer):
 
     # If no existing streamer, create it
     if not existing_streamer:
-        schema = StreamerSchema()
-        new_streamer = schema.load(streamer, session=db.session)
-
-        # Add the person to the database
-        db.session.add(new_streamer)
-        db.session.commit()
+        create_db(streamer)
 
         return make_response(
-            "{} successfully created".format(username), 201
+            "{} successfully created".format(username), 200
         )
     else:
         abort(
@@ -86,10 +96,10 @@ def delete(username):
         db.session.commit()
 
         return make_response(
-            "{} successfully deleted".format(username), 201
+            "{} successfully deleted".format(username), 200
         )
     else:
         abort(
-            406,
+            404,
             "Streamer with username {} not found".format(username),
         )

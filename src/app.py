@@ -9,8 +9,8 @@ connex_app.add_api("swagger.yml")
 
 
 @connex_app.route('/')
-def henlo_world():
-    return 'Henlo World!'
+def health_check():
+    return 'OK'
 
 
 if __name__ == '__main__':

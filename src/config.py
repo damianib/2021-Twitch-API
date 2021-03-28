@@ -26,3 +26,4 @@ ma = Marshmallow(app)
 
 # Instantiate Twitch API fetcher
 twitch = FetchTwitchAPI()
+apis_to_fetch = [twitch]
